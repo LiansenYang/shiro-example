@@ -20,7 +20,7 @@ public class MyRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         authorizationInfo.addRole("role1");
         authorizationInfo.addRole("role2");
-        authorizationInfo.addObjectPermission(new BitPermission("+user1+10"));
+        authorizationInfo.addObjectPermission(new BitPermission("+user1+15"));
         authorizationInfo.addObjectPermission(new WildcardPermission("user1:*"));
         authorizationInfo.addStringPermission("+user2+10");
         authorizationInfo.addStringPermission("user2:*");
