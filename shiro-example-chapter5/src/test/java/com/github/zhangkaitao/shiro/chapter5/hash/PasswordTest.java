@@ -7,6 +7,7 @@ import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.codec.CodecSupport;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.crypto.hash.format.Shiro1CryptFormat;
 import org.apache.shiro.realm.jdbc.JdbcRealm;
 import org.apache.shiro.util.ByteSource;
 import org.junit.Test;
@@ -29,15 +30,33 @@ public class PasswordTest extends BaseTest {
     }
 
     @Test
+    public void testGenerateWU123Password() {
+        String algorithmName = "SHA-256";
+        String username = "wu";
+        String password = "123";
+        String salt1 = username;
+        String salt2 = new SecureRandomNumberGenerator().nextBytes().toHex(); //这个值是随意地1234 ，但是不能为空
+        int hashIterations = 1;
+
+
+        SimpleHash hash = new SimpleHash(algorithmName, password,salt2, hashIterations);
+        String encodedPassword = hash.toHex();
+        System.out.println(salt2);
+
+        Shiro1CryptFormat format = new Shiro1CryptFormat();
+        System.out.println(format.format(hash));
+    }
+
+    @Test
     public void testGeneratePassword() {
         String algorithmName = "md5";
-        String username = "liu";
+        String username = "zhang";
         String password = "123";
         String salt1 = username;
         String salt2 = new SecureRandomNumberGenerator().nextBytes().toHex();
         int hashIterations = 2;
 
-        SimpleHash hash = new SimpleHash(algorithmName, password, salt1 + salt2, hashIterations);
+        SimpleHash hash = new SimpleHash(algorithmName, password, salt1+salt2, hashIterations);
         String encodedPassword = hash.toHex();
         System.out.println(salt2);
         System.out.println(encodedPassword);

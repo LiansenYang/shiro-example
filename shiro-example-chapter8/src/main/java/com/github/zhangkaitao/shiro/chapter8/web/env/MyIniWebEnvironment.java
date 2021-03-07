@@ -29,7 +29,7 @@ public class MyIniWebEnvironment extends IniWebEnvironment {
         for(DefaultFilter filter : DefaultFilter.values()) {
             filterChainManager.addFilter(filter.name(), (Filter) ClassUtils.newInstance(filter.getFilterClass()));
         }
-        //4、注册URL-Filter的映射关系
+        //4、注册URL-Filter的映射关系【注意：这里只能一个个加chain，也就是参数filterName不能有逗号划分，】
         filterChainManager.addToChain("/login.jsp", "authc");
         filterChainManager.addToChain("/unauthorized.jsp", "anon");
         filterChainManager.addToChain("/**", "authc");
